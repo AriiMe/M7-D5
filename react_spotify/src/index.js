@@ -6,9 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from "react-router-dom";
 import configureStore from "./components/store";
 import { Provider } from "react-redux";
+import history from './history';
+
 ReactDOM.render(
   <Provider store={configureStore()}>
-    <Router>
+    <Router history={history}>
       <App />
     </Router>
   </Provider>,

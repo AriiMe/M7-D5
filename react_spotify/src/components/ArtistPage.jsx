@@ -5,13 +5,14 @@ import "./ArtistPage.css";
 import SongCard from "./SongCard";
 import { connect } from "react-redux";
 
+
 const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => ({
-  getArtists: () => {
+  getArtist: (id) => {
     dispatch(async (dispatch, getState) => {
       try {
-        const response = await fetch(`https://deezerdevs-deezer.p.rapidapi.com/artist/${this.props.artist.id}`, {
+        const response = await fetch(`https://deezerdevs-deezer.p.rapidapi.com/artist/` + id, {
             method: "GET",
             headers: {
               "x-rapidapi-key":
@@ -20,12 +21,12 @@ const mapDispatchToProps = (dispatch) => ({
             }
         }); 
         console.log(response)
-        let artists = await response.json();
-        console.log(artists, "ARTISTSSSSSSSSSSSSSSSSSSS")
+        let singleArtist = await response.json();
+        console.log(singleArtist, "Clicked artist")
         if (response.ok) {
           dispatch({
-            type: "GET_ARTISTS",
-            payload: artists.data,
+            type: "SELECT_SINGLE_ARTIST",
+            payload: singleArtist,
           });
         }
       } catch (error) {
@@ -40,7 +41,7 @@ class ArtistPage extends React.Component {
     tracklist: [],
   };
   componentDidMount = () => {
-    this.props.getArtists();
+    this.props.getArtist(this.props.match.params.id);
     this.fetchTracklist();
   };
   fetchTracklist = async () => {
@@ -64,16 +65,16 @@ class ArtistPage extends React.Component {
     }
   };
   render() {
-    if (this.state.artist) {
+    //console.log(this.props.singleArtist, "SELECTED ARTIST")
       return (
         <>
           <section id="album-banner">
             <Jumbotron className="py-0 align-items-center text-center">
               <div className="buttonbox">
                 <p className="text-center p-0 m-0 listeners">
-                  {this.state.artist.nb_fan} FANS
+                  {this.props.singleArtist.name} FANS
                 </p>
-                <h1 id="groupName">{this.state.artist.name}</h1>
+                <h1 id="groupName">{this.props.singleArtist.name}</h1>
                 <button
                   id="playbtn"
                   className="btn-play d-none d-md-inline-block"
@@ -91,7 +92,7 @@ class ArtistPage extends React.Component {
               <img
                 className="img-fluid"
                 style={{ width: "100%", height: "50vh", objectFit: "cover" }}
-                src={this.state.artist.picture_xl}
+                src={this.props.singleArtist.picture_xl}
                 alt="album cover"
               />
               <div className="wrapper-img"></div>
@@ -121,10 +122,9 @@ class ArtistPage extends React.Component {
                 </Row>
               </Container>
             </Row>
-          </Container>
-        </>
+          </Container>*/}
+                  </>
       );
-    }
   }
 }
 

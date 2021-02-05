@@ -50,7 +50,7 @@ class AlbumPage extends React.Component {
                   <Row className="mx-auto">
                     <img
                       className="img-fluid"
-                      src={this.album.cover_xl}
+                      src={this.props.album.cover_xl}
                       alt="album cover"
                     />
                   </Row>
