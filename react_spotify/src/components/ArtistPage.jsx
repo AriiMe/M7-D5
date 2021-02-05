@@ -5,35 +5,43 @@ import "./ArtistPage.css";
 import SongCard from "./SongCard";
 import { connect } from "react-redux";
 
+const mapStateToProps = (state) => state;
+
+const mapDispatchToProps = (dispatch) => ({
+  getArtists: () => {
+    dispatch(async (dispatch, getState) => {
+      try {
+        const response = await fetch(`https://deezerdevs-deezer.p.rapidapi.com/artist/${this.props.artist.id}`, {
+            method: "GET",
+            headers: {
+              "x-rapidapi-key":
+                "b5adde9161msh8a1dcb5f94ec12fp19467bjsn5987880f6b6c",
+              "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
+            }
+        }); 
+        console.log(response)
+        let artists = await response.json();
+        console.log(artists, "ARTISTSSSSSSSSSSSSSSSSSSS")
+        if (response.ok) {
+          dispatch({
+            type: "GET_ARTISTS",
+            payload: artists.data,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  },
+});
 class ArtistPage extends React.Component {
   state = {
     artist: {},
     tracklist: [],
   };
   componentDidMount = () => {
-    this.fetchArtist();
+    this.props.getArtists();
     this.fetchTracklist();
-  };
-  fetchArtist = async () => {
-    try {
-      let response = await fetch(
-        "https://deezerdevs-deezer.p.rapidapi.com/artist/" +
-          this.props.match.params.id,
-        {
-          method: "GET",
-          headers: {
-            "x-rapidapi-key":
-              "b5adde9161msh8a1dcb5f94ec12fp19467bjsn5987880f6b6c",
-            "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
-          },
-        }
-      );
-      let parsedResponse = await response.json();
-      this.setState({ artist: parsedResponse });
-      console.log(this.state.artist);
-    } catch (error) {
-      console.log(error);
-    }
   };
   fetchTracklist = async () => {
     try {
@@ -120,4 +128,4 @@ class ArtistPage extends React.Component {
   }
 }
 
-export default connect(ArtistPage);
+export default connect(mapStateToProps,mapDispatchToProps)(ArtistPage);

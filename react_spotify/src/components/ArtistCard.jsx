@@ -21,11 +21,11 @@ const mapDispatchToProps = (dispatch) => ({
         }); 
         console.log(response)
         let artists = await response.json();
-        console.log(artists, "FUCING ARTISTSSSSSSSSSSSSSSSSSSS")
+        console.log(artists.data, "Artists in a fetch")
         if (response.ok) {
           dispatch({
             type: "GET_ARTISTS",
-            payload: artists,
+            payload: artists.data,
           });
         }
       } catch (error) {
@@ -58,11 +58,11 @@ componentDidMount = async () => {
   };*/
 
   render() {
-    console.log(this.props.artists , "ARTISTtttttt11111111")
+   //console.log(this.props.artists, "Artists after fetch")
     return (
     <div>
       {/* <h3>{this.props.artists[0].data[0].artist.name}</h3> */}
-         {this.props.artists.map((artist, index) => {
+         {this.props.artists.map((artist, index) => (
           <Col
             xs={12}
             sm={6}
@@ -82,8 +82,8 @@ componentDidMount = async () => {
               </Card.Body>
             </Card>
           </Col>
-       } )
-      }
+          ))
+         }
       </div> 
       )
   }

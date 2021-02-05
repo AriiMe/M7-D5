@@ -12,14 +12,14 @@ const composedEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 export const initialState = {
     like: [],
-    song: [],
+    song: {},
     selectedSong: {},
     album:{},
     artists:[],
     selectedAlbum: {},
 };
 
-const bigReducer = combineReducers({ liked: likedReducer, song: songsReducer,selectedSong:songsReducer,album:albumsReducer,selectedAlbum:albumsReducer,artists:artistReducer,error:errorReducer})
+const bigReducer = combineReducers({ like: likedReducer, song: songsReducer,selectedSong:songsReducer,album:albumsReducer,selectedAlbum:albumsReducer,artists:artistReducer,error:errorReducer})
 export default function configureStore() {
     return createStore(bigReducer, initialState, composedEnhancer(applyMiddleware(thunk)))
 }
