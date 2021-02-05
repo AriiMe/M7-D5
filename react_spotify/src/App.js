@@ -7,6 +7,7 @@ import FooterPlayer from "./components/FooterPlayer";
 import HomePage from "./components/HomePage";
 import ArtistPage from "./components/ArtistPage";
 import AlbumPage from "./components/AlbumPage";
+import Liked from "./components/Liked";
 import "./App.css";
 
 class App extends React.Component {
@@ -26,6 +27,7 @@ class App extends React.Component {
             <AlbumPage {...props} />
           )}
         />
+        <Route path="/yourLibrary/" exact component={Liked} />
       </BrowserRouter>
     );
   }

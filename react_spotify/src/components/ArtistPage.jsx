@@ -1,3 +1,5 @@
+/** @format */
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Container, Row, Jumbotron, ListGroup } from "react-bootstrap";
@@ -82,6 +84,10 @@ class ArtistPage extends React.Component {
                   PLAY
                 </button>
                 <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.props.addToLiked(this.props.selected);
+                  }}
                   id="followbtn"
                   className="btn-follow d-none d-md-inline-block"
                 >
@@ -122,10 +128,10 @@ class ArtistPage extends React.Component {
                 </Row>
               </Container>
             </Row>
-          </Container>*/}
+          </Container>
                   </>
       );
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(ArtistPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ArtistPage);
