@@ -105,9 +105,7 @@ class ArtistPage extends React.Component {
                 Popular Releases
               </h1>
               <Row className="popular">
-                {this.state.tracklist.map((song) => (
-                  <SongCard song={song} />
-                ))}
+                  <SongCard id={this.props.singleArtist.id} />
               </Row>
             </Container>
           </Row>

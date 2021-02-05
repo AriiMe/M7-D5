@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
         }); 
         console.log(response)
         let tracklist = await response.json();
-      // console.log(tracklist.data, "TRACKLIST FROM THE CURRENT ARTIST")
+      console.log(tracklist.data, "TRACKLIST FROM THE CURRENT ARTIST")
         if (response.ok) {
           dispatch({
             type: "GET_TRACKLIST",
