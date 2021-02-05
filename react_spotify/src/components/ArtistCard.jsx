@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch) => ({
         if (response.ok) {
           dispatch({
             type: "GET_ARTISTS",
-            payload: [artists],
+            payload: artists,
           });
         }
       } catch (error) {
@@ -42,8 +42,8 @@ class ArtistCard extends React.Component {
     loading: true,
   };
 
-componentDidMount = () => {
-  this.props.getArtists();
+componentDidMount = async () => {
+  await this.props.getArtists();
 }
 /*  
   componentDidUpdate = (prevProps, prevState) => {
@@ -58,9 +58,10 @@ componentDidMount = () => {
   };*/
 
   render() {
-    console.log(this.props.artists, "ARTIST")
+    console.log(this.props.artists , "ARTISTtttttt11111111")
     return (
     <div>
+      {/* <h3>{this.props.artists[0].data[0].artist.name}</h3> */}
          {this.props.artists.map((artist, index) => {
           <Col
             xs={12}
