@@ -22,7 +22,7 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <NavBar />
-        <Route path="/" exact component={HomePage} />
+        <Route path="/" exact render={(props) => <HomePage {...props} />} />
         <Route
           path="/artist/:id"
           render={(props) => <ArtistPage {...props} />}
