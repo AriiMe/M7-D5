@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { withRouter, Link } from "react-router-dom";
@@ -51,7 +53,12 @@ class NavBar extends React.Component {
               </svg>
               Search
             </Nav.Link>
-            <Nav.Link>
+            <Nav.Link
+              onClick={(e) => {
+                e.preventDefault();
+                this.props.history.push("/yourLibrary/");
+              }}
+            >
               <svg
                 viewBox="0 0 512 512"
                 width={24}

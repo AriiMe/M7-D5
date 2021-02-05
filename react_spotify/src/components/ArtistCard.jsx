@@ -1,7 +1,7 @@
 /** @format */
 
 import React from "react";
-import { Col, Card, Alert, Spinner } from "react-bootstrap";
+import { Col, Card, Row, Alert, Spinner } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -11,17 +11,20 @@ const mapDispatchToProps = (dispatch) => ({
   getArtists: () => {
     dispatch(async (dispatch, getState) => {
       try {
-        const response = await fetch(`https://deezerdevs-deezer.p.rapidapi.com/genre/152/artists`, {
+        const response = await fetch(
+          `https://deezerdevs-deezer.p.rapidapi.com/genre/152/artists`,
+          {
             method: "GET",
             headers: {
               "x-rapidapi-key":
                 "b5adde9161msh8a1dcb5f94ec12fp19467bjsn5987880f6b6c",
               "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
-            }
-        }); 
-        console.log(response)
+            },
+          }
+        );
+        console.log(response);
         let artists = await response.json();
-        console.log(artists.data, "Artists in a fetch")
+        console.log(artists.data, "Artists in a fetch");
         if (response.ok) {
           dispatch({
             type: "GET_ARTISTS",
@@ -42,10 +45,10 @@ class ArtistCard extends React.Component {
     loading: true,
   };
 
-componentDidMount = async () => {
-  await this.props.getArtists();
-}
-/*  
+  componentDidMount = async () => {
+    await this.props.getArtists();
+  };
+  /*  
   componentDidUpdate = (prevProps, prevState) => {
     if (prevProps.genre !== this.props.genre) {
       console.log("PREVIOUS GENRE IS DIFFERENT TO THIS ONE");
@@ -58,35 +61,39 @@ componentDidMount = async () => {
   };*/
 
   render() {
-   //console.log(this.props.artists, "Artists after fetch")
+    //console.log(this.props.artists, "Artists after fetch")
     return (
-    <div>
-      {/* <h3>{this.props.artists[0].data[0].artist.name}</h3> */}
-         {this.props.artists.map((artist, index) => (
-          <Col
-            xs={12}
-            sm={6}
-            lg={4}
-            xl={2}
-            key={index}
-            onClick={() => this.props.history.push("/artist/" + artist.id)}
-          >
-            <Card>
-              <Card.Img
-                variant="top"
-                src={artist.picture_xl}
-                alt="artistImage"
-              />
-              <Card.Body>
-                <Card.Text className="text-center">{artist.name}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          ))
-         }
-      </div> 
-      )
+      <div>
+        <Row>
+          {/* <h3>{this.props.artists[0].data[0].artist.name}</h3> */}
+          {this.props.artists.map((artist, index) => (
+            <Col
+              xs={12}
+              sm={6}
+              lg={4}
+              xl={2}
+              key={index}
+              onClick={() => this.props.history.push("/artist/" + artist.id)}
+            >
+              <Card>
+                <Card.Img
+                  variant="top"
+                  src={artist.picture_xl}
+                  alt="artistImage"
+                />
+                <Card.Body>
+                  <Card.Text className="text-center">{artist.name}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </div>
+    );
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(withRouter(ArtistCard));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(ArtistCard));

@@ -1,3 +1,5 @@
+/** @format */
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Container, Row, Jumbotron, ListGroup } from "react-bootstrap";
@@ -11,17 +13,20 @@ const mapDispatchToProps = (dispatch) => ({
   getArtists: () => {
     dispatch(async (dispatch, getState) => {
       try {
-        const response = await fetch(`https://deezerdevs-deezer.p.rapidapi.com/artist/${this.props.artist.id}`, {
+        const response = await fetch(
+          `https://deezerdevs-deezer.p.rapidapi.com/artist/${this.props.artist.id}`,
+          {
             method: "GET",
             headers: {
               "x-rapidapi-key":
                 "b5adde9161msh8a1dcb5f94ec12fp19467bjsn5987880f6b6c",
               "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
-            }
-        }); 
-        console.log(response)
+            },
+          }
+        );
+        console.log(response);
         let artists = await response.json();
-        console.log(artists, "ARTISTSSSSSSSSSSSSSSSSSSS")
+        console.log(artists, "ARTISTSSSSSSSSSSSSSSSSSSS");
         if (response.ok) {
           dispatch({
             type: "GET_ARTISTS",
@@ -81,6 +86,10 @@ class ArtistPage extends React.Component {
                   PLAY
                 </button>
                 <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.props.addToLiked(this.props.selected);
+                  }}
                   id="followbtn"
                   className="btn-follow d-none d-md-inline-block"
                 >
@@ -128,4 +137,4 @@ class ArtistPage extends React.Component {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(ArtistPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ArtistPage);
