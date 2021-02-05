@@ -4,7 +4,7 @@ import React from "react";
 import { Col, Card, Row, Container, Alert, Spinner } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import history from '../history'; 
+import history from "../history";
 
 const mapStateToProps = (state) => state;
 
@@ -37,10 +37,10 @@ const mapDispatchToProps = (dispatch) => ({
       }
     });
   },
-  addToFav: (id) =>
+  addToFav: (artists) =>
     dispatch({
       type: "ADD_TO_LIKED",
-      payload: id,
+      payload: artists,
     }),
 });
 
@@ -87,7 +87,7 @@ class ArtistCard extends React.Component {
                 alt=""
                 onClick={(e) => {
                   e.preventDefault();
-                  this.props.addToFav(this.props.artist);
+                  this.props.addToFav(this.props.singleArtist.id);
                 }}
               />
               <Card.Img
