@@ -1,7 +1,7 @@
 /** @format */
 
 import React from "react";
-import { Col, Card, Row, Alert, Spinner } from "react-bootstrap";
+import { Col, Card, Row, Container, Alert, Spinner } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import history from '../history'; 
@@ -37,6 +37,11 @@ const mapDispatchToProps = (dispatch) => ({
       }
     });
   },
+  addToFav: (id) =>
+    dispatch({
+      type: "ADD_TO_LIKED",
+      payload: id,
+    }),
 });
 
 class ArtistCard extends React.Component {
@@ -64,32 +69,40 @@ class ArtistCard extends React.Component {
   render() {
     //console.log(this.props.artists, "Artists after fetch")
     return (
-      <div>
-        <Row>
-          {/* <h3>{this.props.artists[0].data[0].artist.name}</h3> */}
-          {this.props.artists.map((artist, index) => (
-            <Col
-              xs={12}
-              sm={6}
-              lg={4}
-              xl={2}
-              key={index}
-              onClick={() => this.props.history.push("/artist/" + artist.id)}
-            >
-              <Card>
-                <Card.Img
-                  variant="top"
-                  src={artist.picture_xl}
-                  alt="artistImage"
-                />
-                <Card.Body>
-                  <Card.Text className="text-center">{artist.name}</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </div>
+      <Row>
+        {/* <h3>{this.props.artists[0].data[0].artist.name}</h3> */}
+        {this.props.artists.map((artist, index) => (
+          <Col xs={12} sm={6} lg={4} xl={2} key={index} className="mr-5">
+            <Card>
+              <img
+                style={{
+                  height: "20px",
+                  width: "20px",
+                  position: " absolute",
+                  top: "10px",
+                  left: "170px",
+                  zIndex: "200",
+                }}
+                src="./img/pngwing.png"
+                alt=""
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.props.addToFav(this.props.artist);
+                }}
+              />
+              <Card.Img
+                onClick={() => this.props.history.push("/artist/" + artist.id)}
+                variant="top"
+                src={artist.picture_xl}
+                alt="artistImage"
+              />
+              <Card.Body>
+                <Card.Text className="text-center">{artist.name}</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
     );
   }
 }
