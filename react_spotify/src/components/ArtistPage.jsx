@@ -3,6 +3,7 @@ import React from "react";
 import { Container, Row, Jumbotron, ListGroup } from "react-bootstrap";
 import "./ArtistPage.css";
 import SongCard from "./SongCard";
+import { connect } from "react-redux";
 
 class ArtistPage extends React.Component {
   state = {
@@ -119,4 +120,4 @@ class ArtistPage extends React.Component {
   }
 }
 
-export default ArtistPage;
+export default connect(ArtistPage);

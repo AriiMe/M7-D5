@@ -1,4 +1,6 @@
-export default function (state = {}, action) {
+import {initialState} from "../store/index";
+
+export default function (state = initialState, action) {
     switch (action.type) {
         case "ADD_TO_LIKED":
             return {
@@ -19,6 +21,16 @@ export default function (state = {}, action) {
             return {
                 ...state,
                 songList: action.payload,
+            }
+        case "GET_ALBUM":
+            return {
+                    ...state,
+                    album: action.payload,
+            }
+        case "GET_ARTISTS":
+            return {
+                    ...state,
+                    artists: action.payload,
             }
         case "SET_ERROR_CODE":
             return {

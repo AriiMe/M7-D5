@@ -2,6 +2,31 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import "./AlbumPage.css";
 import CommentArea from "./CommentArea";
+import { connect } from "react-redux";
+
+const mapStateToProps = (state) => state;
+
+const mapDispatchToProps = async (dispatch) => {
+  try {
+    let response = await fetch(
+      `https://deezerdevs-deezer.p.rapidapi.com/album/${album.id}`,
+      {
+        method: "GET",
+        headers: {
+          "x-rapidapi-key":
+            "b5adde9161msh8a1dcb5f94ec12fp19467bjsn5987880f6b6c",
+          "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
+        },
+      }
+    );
+    let album = await response.json();
+    console.log(album)
+    return dispatch({type: "GET_ALBUM", playload: album})
+  } catch (error) {
+    console.log(error);
+    return dispatch({ type: "SET_ERROR_CODE", payload: 404 });
+  }
+};
 
 class AlbumPage extends React.Component {
   state = {
@@ -14,32 +39,8 @@ class AlbumPage extends React.Component {
     console.log("hi");
   };
 
-  fetchTracklist = async () => {
-    try {
-      let response = await fetch(
-        `https://deezerdevs-deezer.p.rapidapi.com/album/${this.props.match.params.id}`,
-        {
-          method: "GET",
-          headers: {
-            "x-rapidapi-key":
-              "b5adde9161msh8a1dcb5f94ec12fp19467bjsn5987880f6b6c",
-            "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
-          },
-        }
-      );
-      let parsedResponse = await response.json();
-      console.log(parsedResponse);
-      this.setState({ tracklist: parsedResponse.tracks.data });
-      this.setState({ album: parsedResponse });
-      console.log(this.state.tracklist);
-      console.log(this.state.album);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   render() {
-    if (this.state.album) {
+    if (this.album) {
       return (
         <>
           <Container fluid className="d-flex" id="albumPage">
@@ -49,16 +50,16 @@ class AlbumPage extends React.Component {
                   <Row className="mx-auto">
                     <img
                       className="img-fluid"
-                      src={this.state.album.cover_xl}
+                      src={this.album.cover_xl}
                       alt="album cover"
                     />
                   </Row>
                   <Row className="text-center d-flex justify-content-center">
-                    <h1 className="generalHeading">{this.state.album.title}</h1>
+                    <h1 className="generalHeading">{this.album.title}</h1>
                   </Row>
                   <Row className="text-center d-flex justify-content-center">
                     <span className="text-muted artist">
-                      {this.state.album.title}
+                      {this.album.title}
                     </span>
                   </Row>
                   <Row className="d-flex justify-content-center mt-3">
@@ -68,8 +69,8 @@ class AlbumPage extends React.Component {
                   </Row>
                   <Row className="d-flex text-center justify-content-center mt-2 albumLength">
                     <span class="text-muted">
-                      {this.state.album.release_date} •{" "}
-                      {this.state.album.nb_tracks} SONGS
+                      {this.album.release_date} •{" "}
+                      {this.album.nb_tracks} SONGS
                     </span>
                   </Row>
                 </Container>
@@ -77,13 +78,13 @@ class AlbumPage extends React.Component {
               <Col xs={12} lg={8} id="songList">
                 <Container className="d-flex flex-column mt-5 here">
                   <Row className="d-flex justify-content-between">
-                    {this.state.tracklist.map((song) => (
+                    {this.tracklist.map((song) => (
                       <Row
                         className="copy"
                         onClick={() =>
                           this.props.selectedSong(
                             song,
-                            this.state.album.cover_xl
+                            song.album.cover_xl
                           )
                         }
                       >
@@ -108,4 +109,4 @@ class AlbumPage extends React.Component {
   }
 }
 
-export default AlbumPage;
+export default connect(mapStateToProps,mapDispatchToProps)(AlbumPage);
