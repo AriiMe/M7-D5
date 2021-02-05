@@ -37,37 +37,14 @@ const mapDispatchToProps = (dispatch) => ({
     });
   },
 });
+
 class ArtistPage extends React.Component {
-  state = {
-    artist: {},
-    tracklist: [],
-  };
   componentDidMount = () => {
     this.props.getArtist(this.props.match.params.id);
-    this.fetchTracklist();
-  };
-  fetchTracklist = async () => {
-    try {
-      let response2 = await fetch(
-        `https://deezerdevs-deezer.p.rapidapi.com/artist/${this.props.match.params.id}/top?limit=50`,
-        {
-          method: "GET",
-          headers: {
-            "x-rapidapi-key":
-              "b5adde9161msh8a1dcb5f94ec12fp19467bjsn5987880f6b6c",
-            "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
-          },
-        }
-      );
-      let parsedResponse2 = await response2.json();
-      this.setState({ tracklist: parsedResponse2.data });
-      console.log(this.state.tracklist);
-    } catch (error) {
-      console.log(error);
-    }
   };
   render() {
-    //console.log(this.props.singleArtist, "SELECTED ARTIST")
+    console.log(this.props.tracklist.data, "TRACKLIST")
+   // console.log(this.props.tracklist[0].title, "SELECTED TITLE")
       return (
         <>
           <section id="album-banner">
@@ -122,9 +99,7 @@ class ArtistPage extends React.Component {
                   Popular Releases
                 </h1>
                 <Row className="popular">
-                  {this.state.tracklist.map((song) => (
-                    <SongCard song={song} />
-                  ))}
+                    <SongCard id={this.props.singleArtist.id}/>
                 </Row>
               </Container>
             </Row>
